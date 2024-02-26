@@ -1,0 +1,28 @@
+version: '3.1'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - 3000:3000
+    volumes:
+      - ./src:/app/src
+    depends_on:
+      - db
+    command: ["wait-for-it", "db:5432", "--", "npm", "run", "start:dev"]
+
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: nestauth
+  
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080

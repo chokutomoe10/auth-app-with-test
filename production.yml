@@ -1,0 +1,5 @@
+services:
+  app:
+    build:
+      target: prod
+    command: ["wait-for-it", "db:5432", "--", "npm", "run", "start:prod"]
